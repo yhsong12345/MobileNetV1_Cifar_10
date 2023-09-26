@@ -30,7 +30,6 @@ class SaveBestModel:
         if current_valid_acc > self.best_valid_acc:
             self.best_valid_acc = current_valid_acc
             print(f"\nBest validation acc: {self.best_valid_acc}")
-            print(f"\nBest validation acc: {self.best_valid_loss}")
             print(f"\nSaving best model for epoch: {epoch+1}\n")
             torch.save({
                 'epoch': epoch+1,
