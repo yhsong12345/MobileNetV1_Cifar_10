@@ -17,29 +17,27 @@ class SaveBestModel:
     model state.
     """
     def __init__(
-        self, best_valid_acc=float(0), best_valid_loss=float('inf')
+        self, best_valid_acc=float(0)
     ):
         self.best_valid_acc = best_valid_acc
-        self.best_valid_loss = best_valid_loss
         
     def __call__(
-        self, m, current_valid_acc, current_valid_loss,
+        self, m, current_valid_acc,
         epoch, model, optimizer, criterion
     ):
         path = f'./outputs/{m}'
-        if current_valid_loss < self.best_valid_loss:
-            if current_valid_acc > self.best_valid_acc:
-                self.best_valid_acc = current_valid_acc
-                self.best_valid_loss = current_valid_loss
-                print(f"\nBest validation acc: {self.best_valid_acc}")
-                print(f"\nBest validation acc: {self.best_valid_loss}")
-                print(f"\nSaving best model for epoch: {epoch+1}\n")
-                torch.save({
-                    'epoch': epoch+1,
-                    'model_state_dict': model.state_dict(),
-                    'optimizer_state_dict': optimizer.state_dict(),
-                    'loss': criterion,
-                    }, f'{path}/best_model.pt')
+
+        if current_valid_acc > self.best_valid_acc:
+            self.best_valid_acc = current_valid_acc
+            print(f"\nBest validation acc: {self.best_valid_acc}")
+            print(f"\nBest validation acc: {self.best_valid_loss}")
+            print(f"\nSaving best model for epoch: {epoch+1}\n")
+            torch.save({
+                'epoch': epoch+1,
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'loss': criterion,
+                }, f'{path}/best_model.pt')
 
 
 def save_model(m, epoch, model, optimizer, criterion):
